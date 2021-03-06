@@ -1,18 +1,218 @@
 ---
 ---
  <!DOCTYPE html>
- <html>
-	   <head>
-		       <meta charset="utf-8">
-		           <title>{{site.data.details.name}}'s Home</title>
-			     </head>
-			       <body>
-				           <h1>Hello World, this is the {{site.data.details.name}}!</h1>
-					       <p>Reach me at:
-					           <ul>
-							         {% for url in site.data.details.urls %}
-								         <li><a href="http://{{url}}">{{url}}</a></li>
-									       {% endfor %}
-									           </ul>
-										     </body>
- </html>
+ <html lang=fr><head>
+		 <meta charset="UTF-8">	
+		 <title>CV</title>
+
+		 <!--
+		 <script src="../bower_components/angular/angular.js"></script>
+		 <script src="../bower_components/js-yaml/dist/js-yaml.js"></script>
+		 -->
+		 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js"></script>
+		 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.10.0/js-yaml.min.js"></script>
+				 <script>
+					 //the test : 
+					 //alert ( JSON.stringify( jsyaml.load("a: a") ));
+					 loadFile= function(url) {
+											  	if (typeof XMLHttpRequest != 'undefined') {
+																		 		xhr = new XMLHttpRequest();
+																		 	} else {
+																									 		xhr = new ActiveXObject('Microsoft.XMLHTTP');//IE6?
+																									 	}
+
+											  	try {
+																		 		xhr.open('GET', url, false);
+																		 		xhr.send(null);
+																		 	} catch (e) {
+																									 		isCrossOriginRestricted = true;
+																									 	}
+
+											  	status = (xhr.status === 1223) ? 204 :(xhr.status === 0 && (self.location || {}).protocol == 'file:') ? 200 : xhr.status;
+
+											  	if ((status >= 200 && status < 300) || (status === 304) || (status === ''))
+												  		return xhr.responseText;
+											  	return null;
+										  };
+
+					 var yhr=function(name){
+											  	return jsyaml.load(loadFile(name));
+										  };
+					 try{
+											  var cv = yhr("data/cv-example.yaml");
+										  } catch (e) {
+																   	alert(e);
+															   }
+					 angular.module('cvapp',[]).controller('MainCtrl', function ($scope) {
+											    $scope.cv=cv;
+										  });
+				 </script>
+<style>
+/* 6 paragraphes: titles profile skills  formation languages missions titre #003567 texte #58585A bullets #547CA9 mission*/
+@page {
+	 /* size: A4;*/
+	  size: A4;
+	    margin: 0;
+}
+																			@media print {
+																				  html, body {
+																					      width: 210mm;
+																					          height: 297mm;
+																						    }
+																				    body 
+																					        {
+																					            background-color:#FFFFFF; 
+																						            border: solid 1px black ;
+																							            margin: 0px;  /* this affects the margin on the content before sending to printer */
+																								       }
+																			}
+																			/* TODO gestion de l'impression */
+																			    @media screen {
+																				    		/*div.footer {
+																						  			/*display: none;*/
+																									background-image: url("style/footer.png");
+																												background-repeat: no-repeat;
+																															background-origin: border-box;
+																																		background-size: contain;
+																																					position: fixed;
+																																								bottom: 0;
+																																											width: 210mm;
+																																														height: 12mm;
+																																																}*/
+																						    }
+																			        @media print {
+																							div.footer {
+																											/*display: none;*/
+																											background-image: url("style/footer.png");
+																														background-repeat: no-repeat;
+																																	background-origin: border-box;
+																																				background-size: contain;
+																																							position: fixed;
+																																										bottom: 0;
+																																													width: 210mm;
+																																																height: 12mm;
+																																																/*			background-position: 0px 0px,
+																																																			                         center;*/
+																																																			-webkit-print-color-adjust: exact;
+																																																					} 
+																									.page{
+																													background-color: white !important;
+																															}
+																										}
+																					
+																				.two-columns{
+																						column-count: 2;
+																							column-gap: 15px;
+																								-webkit-column-count: 2;
+																									-webkit-column-gap: 15px;
+																										-moz-column-count: 2;
+																											-moz-column-gap: 15px;
+
+																												/* column-rule: 3px outset #ff00ff;*/
+																				}
+
+																				/* ... the rest of the rules ... */
+																				html{
+																					   width: 210mm;
+																					      height: 297mm;
+																					         	-webkit-print-color-adjust: exact;
+																				}
+																				body{
+																						font-size:15px;
+																							font-weight: normal;
+																								font-family: sans-serif;
+																								    background-image: url("style/header.png");
+																								        background-repeat: no-repeat;
+																									    background-size: 12cm 4cm;
+																									        background-origin: content-box;
+																										    width: 210mm;
+																										        height: 297mm;
+																												color: #58585A;
+																													padding: 150px 50px 50px 100px;
+																														/* trick pour imprimer les bulles */
+																														-webkit-print-color-adjust: exact;
+																														/* a essayer
+																														   	background-color: white !important;
+																															box-shadow: inset 0 0 0 1000px gold;
+																															p:before { content: url(images/quote.gif); }
+																															*/	
+																				}
+																				.titles {
+																						text-align:right;
+																				}
+																				.titles h1{
+																						font-size: 20px;
+																				}
+																				.titles h2{
+																						font-size: 20px;
+																							margin: 5px;
+																				}
+
+																				.name{
+																						font-size:30px;
+																							font-weight: bold;
+																								color: #003567;
+																				}
+																				h1{
+																						font-size:30px;
+																							color: #003567;
+																								text-transform: uppercase;
+																									border-bottom: 1px solid #003567;
+																				}
+
+
+																				h3{
+																						color: #7F7F7F;
+																				}
+
+																				.skills::first-child h2{
+																						margin-top: 0;
+																				}
+
+																				.experience h2{
+																						color: #547CA9;
+																				}
+
+																				ul {
+																					    list-style-type: none;
+																					        padding: 0px;
+																						    margin: 0px;
+																				}
+
+																				ul li {
+																					    background-image: url('style/bullet2.png');
+																					        background-repeat: no-repeat;
+																						    background-position: 0px 0px; 
+																						        padding-left: 30px; 
+																				}
+																				p {
+																						margin: 5px;
+																				}
+
+																				.formation{
+																						float: left;
+																							width: 60%;
+																				}
+
+																				.formation h2{
+																						margin: 2px;
+																				}
+
+																				.formation h3{
+																						margin: 2px;
+																				}
+																				.lang{
+																						
+																				}
+																				.experiences{
+																						clear: both;
+																							break-before: always;
+																				}
+																				.experiences{
+																						break-before: auto;
+																							break-inside: avoid;
+																				}
+																				.chrono{
+																						clear: both;
+																							break-before: auto;
+																								page
