@@ -1,6 +1,16 @@
 ---
 # Personal details
 name: Diatsigkos Dimitrios
+
+formations:
+ - year: 2012
+   title: Educational Psychology
+   University: University of L'Aquila
+ - year: 2007
+   title: Chemistry
+   university: ARISTOTLE UNIVERSITY OF THESSALONIKI 
+ - year: 2000
+   title: Bac C
 urls:
- - https://github.com/DIATSIGK
- - https://www.facebook.com/diatsigos.jim
+ - github.com/DIATSIGK
+ - www.facebook.com/diatsigos.jim
