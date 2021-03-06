@@ -8,6 +8,17 @@
   </head>
   <body>
     <h1>{{site.data.details.name}}!</h1>
+    <ul>
+			<li><b>Duration : </b>{{exp.duration}}</li>
+			<li><b>Experience : </b><br>{{exp.project.description}}</li>
+			<li><b>Role : </b>{{exp.role.title}}<br>
+			
+				<p ng-repeat="desc in exp.role.description">{{desc}}</p>
+			</li>
+			<li><b>Équipe : </b>{{exp.team}}</li>
+			<li><b>Environnement Technique: </b>{{exp.environment}}</li>
+        <p ng-repeat="desc in exp.role.description">{{desc}}</p>
+		</ul>
     <p>Reach me at:
     <ul>
       {% for url in site.data.details.urls %}
